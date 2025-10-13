@@ -67,4 +67,8 @@
     <Exec Command="powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File &quot;$(ProjectDir)\VersionChecker\setbuild.ps1&quot;" />
   </Target>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\..\..\BepInEx\plugins\$(TargetFileName)&quot;" />
+  </Target>
+
 </Project>

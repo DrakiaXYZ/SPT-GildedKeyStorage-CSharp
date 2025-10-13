@@ -24,6 +24,7 @@ namespace DrakiaXYZ.GildedKeyStorage.ClientMod
 
             new RemoveSlotItemsForMapEntryPatch().Enable();
             new HideSpecialSlotGrids().Enable();
+            new LoggerBonePatch().Enable();
         }
     }
 
@@ -107,6 +108,26 @@ namespace DrakiaXYZ.GildedKeyStorage.ClientMod
         {
             // The item is in the special slot, and we're drawing the inventory UI based on the parent, skip showing the grids
             if (compoundItem.CurrentAddress.IsSpecialSlotAddress() && __instance.transform.parent.name.StartsWith("SpecialSlot"))
+            {
+                return false;
+            }
+
+            return true;
+        }
+    }
+
+    public class LoggerBonePatch : ModulePatch
+    {
+        protected override MethodBase GetTargetMethod()
+        {
+            return AccessTools.DeclaredMethod(typeof(LoggerClass), nameof(LoggerClass.LogError));
+        }
+
+        [PatchPrefix]
+        private static bool PatchPrefix(string format)
+        {
+            // If the log starts with "bone mod_mount_" and contains "item_container", skip it, this is a Gilded "error"
+            if (format.StartsWith("bone mod_mount_") && format.Contains("item_container"))
             {
                 return false;
             }
