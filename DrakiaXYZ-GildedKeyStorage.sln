@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrakiaXYZ-GildedKeyStorage-Server", "DrakiaXYZ-GildedKeyStorage-Server.csproj", "{D9B4F900-C032-497A-A405-3CAF39F84722}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FA095D49-A683-F6B6-CA05-C8D61B1E02C9} = {FA095D49-A683-F6B6-CA05-C8D61B1E02C9}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrakiaXYZ-GildedKeyStorage-Client", "ClientMod\DrakiaXYZ-GildedKeyStorage-Client.csproj", "{FA095D49-A683-F6B6-CA05-C8D61B1E02C9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Package|Any CPU = Package|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9B4F900-C032-497A-A405-3CAF39F84722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9B4F900-C032-497A-A405-3CAF39F84722}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9B4F900-C032-497A-A405-3CAF39F84722}.Package|Any CPU.ActiveCfg = Package|Any CPU
+		{D9B4F900-C032-497A-A405-3CAF39F84722}.Package|Any CPU.Build.0 = Package|Any CPU
+		{D9B4F900-C032-497A-A405-3CAF39F84722}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9B4F900-C032-497A-A405-3CAF39F84722}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA095D49-A683-F6B6-CA05-C8D61B1E02C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA095D49-A683-F6B6-CA05-C8D61B1E02C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA095D49-A683-F6B6-CA05-C8D61B1E02C9}.Package|Any CPU.ActiveCfg = Package|Any CPU
+		{FA095D49-A683-F6B6-CA05-C8D61B1E02C9}.Package|Any CPU.Build.0 = Package|Any CPU
+		{FA095D49-A683-F6B6-CA05-C8D61B1E02C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA095D49-A683-F6B6-CA05-C8D61B1E02C9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0437F2B7-59AC-4239-AE7E-80429D2F5118}
+	EndGlobalSection
+EndGlobal

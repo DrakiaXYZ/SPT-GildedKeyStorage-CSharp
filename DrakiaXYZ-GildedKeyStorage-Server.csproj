@@ -1,0 +1,72 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<RootNamespace>DrakiaXYZ.GildedKeyStorage</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<OutputType>Library</OutputType>
+		<Version>2.0.0</Version>
+		<OutputPath>bin\$(Configuration)\$(SolutionName)\</OutputPath>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<Configurations>Debug;Release;Package</Configurations>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+		<GenerateDependencyFile>false</GenerateDependencyFile>
+		<StaticWebAssetsEnabled>false</StaticWebAssetsEnabled>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Package'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+		<GenerateDependencyFile>false</GenerateDependencyFile>
+		<StaticWebAssetsEnabled>false</StaticWebAssetsEnabled>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="ClientMod\**" />
+		<Compile Remove="Package\**" />
+		<Content Remove="ClientMod\**" />
+		<Content Remove="Package\**" />
+		<Content Remove="Resources\**" />
+		<EmbeddedResource Remove="ClientMod\**" />
+		<EmbeddedResource Remove="Package\**" />
+		<None Remove="ClientMod\**" />
+		<None Remove="Package\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Resources\bundles.json" />
+	  <Content Include="Resources\config\barters.json" />
+	  <Content Include="Resources\config\cases.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="SPTarkov.Common" Version="4.0.0" />
+		<PackageReference Include="SPTarkov.DI" Version="4.0.0" />
+		<PackageReference Include="SPTarkov.Reflection" Version="4.0.0" />
+		<PackageReference Include="SPTarkov.Server.Core" Version="4.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Helpers\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="Resources\config\config.default.json" />
+	</ItemGroup>
+
+	<Target Name="CopyResources" AfterTargets="Build">
+		<ItemGroup>
+			<ResourceFiles Include="Resources\**" />
+		</ItemGroup>
+		<Copy SourceFiles="@(ResourceFiles)" DestinationFolder="$(OutDir)\%(RecursiveDir)" />
+	</Target>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="xcopy /i /s /e /y &quot;$(OutDir)&quot; &quot;$(ProjectDir)..\..\SPT\user\mods\$(ProjectName)&quot;&#xD;&#xA;if $(ConfigurationName) == Package (&#xD;&#xA;  powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File $(ProjectDir)\package.ps1 -modName &quot;$(SolutionName)&quot; -modVersion &quot;$(Version)&quot;&#xD;&#xA;)" />
+	</Target>
+
+</Project>

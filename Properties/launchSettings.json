@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "DrakiaXYZ-GildedKeyStorage-CSharp": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:52526;http://localhost:52527"
+    }
+  }
+}
