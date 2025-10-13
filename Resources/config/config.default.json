@@ -60,8 +60,6 @@
 
     "debug": {
         "log_missing_keys": false,
-        "log_rare_keys": false,
-        "give_profile_all_keys": false,
-        "force_remove_debug_items_on_start": false
+        "log_rare_keys": false
     }
 }

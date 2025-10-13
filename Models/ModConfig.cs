@@ -26,6 +26,4 @@ public class ModDebugConfig
 {
     public bool LogMissingKeys { get; set; }
     public bool LogRareKeys { get; set; }
-    public bool GiveProfileAllKeys { get; set; }
-    public bool ForceRemoveDebugItemsOnStart { get; set; }
 }
