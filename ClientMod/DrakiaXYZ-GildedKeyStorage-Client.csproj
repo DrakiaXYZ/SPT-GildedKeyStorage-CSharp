@@ -6,7 +6,7 @@
     <Nullable>disable</Nullable>
     <Authors>DrakiaXYZ</Authors>
     <Copyright>Copyright © 2025 DrakiaXYZ</Copyright>
-    <AssemblyVersion>1.7.0</AssemblyVersion>
+    <AssemblyVersion>2.0.1</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
 	<OutputPath>bin\$(Configuration)\</OutputPath>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>

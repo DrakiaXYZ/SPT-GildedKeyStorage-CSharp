@@ -11,7 +11,7 @@ using System.Reflection;
 
 namespace DrakiaXYZ.GildedKeyStorage.ClientMod
 {
-    [BepInPlugin("xyz.drakia.gildedkeystorage", "DrakiaXYZ-GildedKeyStorage", "2.0.0")]
+    [BepInPlugin("xyz.drakia.gildedkeystorage", "DrakiaXYZ-GildedKeyStorage", "2.0.1")]
     [BepInDependency("com.SPT.core", "4.0.0")]
     public class GildedKeyStoragePlugin : BaseUnityPlugin
     {
@@ -57,6 +57,12 @@ namespace DrakiaXYZ.GildedKeyStorage.ClientMod
                 return false;
             }
 
+            // If we are transiting, the key has already been consumed, don't do anything
+            if (TransitControllerAbstractClass.IsTransit(profile.Id, out string transitLocation))
+            {
+                return false;
+            }
+
             // Find the entry item in the user's profile
             Item itemToRemove = null;
             Item keyItem = profile.Inventory.GetPlayerItems(EPlayerItems.Equipment).FirstOrDefault(item => item.Id == keyId);
@@ -83,11 +89,26 @@ namespace DrakiaXYZ.GildedKeyStorage.ClientMod
             // If we need to remove the item (Either not a Key, or has hit its use limit), remove it
             if (itemToRemove != null)
             {
-                var container = itemToRemove.Parent.Container;
-                var result = InteractionsHandlerClass.Discard(itemToRemove, (TraderControllerClass)itemToRemove.Parent.GetOwner());
-                if (result.Failed)
+                StashGridClass stashGrid = itemToRemove.Parent.Container as StashGridClass;
+                if (stashGrid != null)
                 {
-                    Logger.LogError(result.Error);
+                    var result = stashGrid.Remove(itemToRemove, false);
+                    if (result.Failed)
+                    {
+                        Logger.LogError(result.Error);
+                    }
+                }
+                else
+                {
+                    Slot slot = itemToRemove.Parent.Container as Slot;
+                    if (slot != null)
+                    {
+                        var result = slot.RemoveItemWithoutRestrictions();
+                        if (result.Failed)
+                        {
+                            Logger.LogError(result.Error);
+                        }
+                    }
                 }
             }
 

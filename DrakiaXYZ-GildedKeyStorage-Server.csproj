@@ -6,7 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<OutputType>Library</OutputType>
-		<Version>2.0.0</Version>
+		<Version>2.0.1</Version>
 		<OutputPath>bin\$(Configuration)\$(SolutionName)\</OutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<Configurations>Debug;Release;Package</Configurations>
@@ -44,10 +44,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="SPTarkov.Common" Version="4.0.0" />
-		<PackageReference Include="SPTarkov.DI" Version="4.0.0" />
-		<PackageReference Include="SPTarkov.Reflection" Version="4.0.0" />
-		<PackageReference Include="SPTarkov.Server.Core" Version="4.0.0" />
+		<PackageReference Include="SPTarkov.Common" Version="4.0.1" />
+		<PackageReference Include="SPTarkov.DI" Version="4.0.1" />
+		<PackageReference Include="SPTarkov.Reflection" Version="4.0.1" />
+		<PackageReference Include="SPTarkov.Server.Core" Version="4.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -66,7 +66,7 @@
 	</Target>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="xcopy /i /s /e /y &quot;$(OutDir)&quot; &quot;$(ProjectDir)..\..\SPT\user\mods\$(ProjectName)&quot;&#xD;&#xA;if $(ConfigurationName) == Package (&#xD;&#xA;  powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File $(ProjectDir)\package.ps1 -modName &quot;$(SolutionName)&quot; -modVersion &quot;$(Version)&quot;&#xD;&#xA;)" />
+		<Exec Command="xcopy /i /s /e /y &quot;$(OutDir)&quot; &quot;$(ProjectDir)..\..\SPT\user\mods\$(SolutionName)&quot;&#xD;&#xA;if $(ConfigurationName) == Package (&#xD;&#xA;  powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File $(ProjectDir)\package.ps1 -modName &quot;$(SolutionName)&quot; -modVersion &quot;$(Version)&quot;&#xD;&#xA;)" />
 	</Target>
 
 </Project>
