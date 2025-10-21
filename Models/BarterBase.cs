@@ -5,6 +5,7 @@ namespace DrakiaXYZ.GildedKeyStorage.Models;
 public class BarterBase
 {
     public required string Id { get; set; }
+    public string? Tpl { get; set; }
     public required string Name { get; set; }
 
     public required string Trader { get; set; }

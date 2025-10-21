@@ -1,7 +1,8 @@
 [
     {
         "name": "Keytool Barter for Keychain",
-        "id": "62a09d3bcf4a99369e262447",
+        "id": "68f7a537b85ebbdeee00ede9",
+        "tpl": "62a09d3bcf4a99369e262447",
         "trader": "mechanic",
         "trader_loyalty_level": 1,
         "unlimited_stock": true,
@@ -17,6 +18,7 @@
     {
         "name": "Prokill Barter for Keychain",
         "id": "68f79f87ae88959f24091471",
+        "tpl": "62a09d3bcf4a99369e262447",
         "trader": "jaeger",
         "trader_loyalty_level": 1,
         "unlimited_stock": true,
@@ -32,6 +34,7 @@
     {
         "name": "Chains Barter for Keychain",
         "id": "68f79f8e4daf9ac2a8b8c091",
+        "tpl": "62a09d3bcf4a99369e262447",
         "trader": "ragman",
         "trader_loyalty_level": 1,
         "unlimited_stock": true,
@@ -50,7 +53,8 @@
     },
     {
         "name": "Barter for Cottage Key",
-        "id": "5a0eb6ac86f7743124037a28",
+        "id": "68f7a532c3e45d5952047cf9",
+        "tpl": "5a0eb6ac86f7743124037a28",
         "trader": "prapor",
         "trader_loyalty_level": 2,
         "unlimited_stock": true,

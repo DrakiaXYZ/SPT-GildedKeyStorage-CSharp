@@ -293,7 +293,7 @@ public class GildedKeyStorageMod(
         trader.Assort.Items.Add(new Item
         {
             Id = newCase.Id,
-            Template = newCase.Id,
+            Template = newCase.Tpl ?? newCase.Id,
             ParentId = "hideout",
             SlotId = "hideout",
             Upd = new Upd
