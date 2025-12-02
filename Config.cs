@@ -33,7 +33,7 @@ public class Config
         var userNode = jsonUtil.SerializeToNode(userConfig);
         var defaultConfig = jsonUtil.Deserialize<ModConfig>(fileUtil.ReadFile(defaultConfigPath));
         var defaultNode = jsonUtil.SerializeToNode(defaultConfig);
-        var mergedConfig = defaultNode!.Merge(userNode);
+        var mergedConfig = defaultNode!.Merge(userNode, false);
 
         config = jsonUtil.Deserialize<ModConfig>(mergedConfig)!;
     }

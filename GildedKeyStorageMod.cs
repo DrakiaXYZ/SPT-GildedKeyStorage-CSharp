@@ -44,12 +44,12 @@ public class GildedKeyStorageMod(
         AdjustItemProperties();
         SetLabsCardInRaidLimit(9);
 
-        if (config.GetConfig().Debug!.LogMissingKeys)
+        if (config.GetConfig().Debug!.LogMissingKeys!.Value)
         {
             debugHelper.LogMissingKeys(cases);
         }
 
-        if (config.GetConfig().Debug!.LogRareKeys)
+        if (config.GetConfig().Debug!.LogRareKeys!.Value)
         {
             debugHelper.LogRareKeys();
         }
@@ -211,31 +211,31 @@ public class GildedKeyStorageMod(
             if (item.Type != "Item") continue;
 
             // Backpacks are handled via a blacklist, so add to blacklist if backpacks are disbaled
-            if (!config.GetConfig().AllowCasesInBackpacks && item.Parent == BaseClasses.BACKPACK)
+            if (!config.GetConfig().AllowCasesInBackpacks!.Value && item.Parent == BaseClasses.BACKPACK)
             {
                 DisallowInContainer(itemId, item);
             }
 
             // Secure containers are handled by whitelist, so add to whitelist if secure is enabled
-            if (config.GetConfig().AllowCasesInSecure && item.Parent == BaseClasses.MOB_CONTAINER && item.Id != ItemTpl.SECURE_CONTAINER_BOSS)
+            if (config.GetConfig().AllowCasesInSecure!.Value && item.Parent == BaseClasses.MOB_CONTAINER && item.Id != ItemTpl.SECURE_CONTAINER_BOSS)
             {
                 AllowInContainer(itemId, item);
             }
 
             // Disallow in specific containers as defined
-            if (config.GetConfig().CasesDisallowedIn.Contains(item.Id))
+            if (config.GetConfig().CasesDisallowedIn!.Contains(item.Id))
             {
                 DisallowInContainer(itemId, item);
             }
 
             // Allow in specific containers as defined
-            if (config.GetConfig().CasesAllowedIn.Contains(item.Id))
+            if (config.GetConfig().CasesAllowedIn!.Contains(item.Id))
             {
                 AllowInContainer(itemId, item);
             }
         }
 
-        if (config.GetConfig().AllowCasesInSpecial)
+        if (config.GetConfig().AllowCasesInSpecial!.Value)
         {
             AllowInSpecialSlots(itemId, itemTable[ItemTpl.POCKETS_1X4_SPECIAL]);
             AllowInSpecialSlots(itemId, itemTable[ItemTpl.POCKETS_1X4_TUE]);
@@ -330,7 +330,7 @@ public class GildedKeyStorageMod(
             // Adjust key specific properties
             if (itemHelper.IsOfBaseclass(item.Id, BaseClasses.KEY))
             {
-                if (config.GetConfig().WeightlessKeys)
+                if (config.GetConfig().WeightlessKeys!.Value)
                 {
                     itemProperties.Weight = 0;
                 }
@@ -339,13 +339,13 @@ public class GildedKeyStorageMod(
 
                 // If keys are to be set to no limit, and we're either not using the finite keys list, or this key doesn't exist
                 // in it, set the key max usage to 0 (infinite)
-                if (config.GetConfig().NoKeyUseLimit && 
-                    (!config.GetConfig().UseFiniteKeysList || !config.GetConfig().FiniteKeysList.Contains(item.Id)))
+                if (config.GetConfig().NoKeyUseLimit!.Value && 
+                    (!config.GetConfig().UseFiniteKeysList!.Value || !config.GetConfig().FiniteKeysList!.Contains(item.Id)))
                 {
                     itemProperties.MaximumNumberOfUsage = 0;
                 }
 
-                if (config.GetConfig().KeysAreDiscardable)
+                if (config.GetConfig().KeysAreDiscardable!.Value)
                 {
                     // BSG uses DiscordLimit == 0 to flag as not insurable, so we need to swap to the flag
                     if (itemProperties.DiscardLimit == 0)
@@ -357,7 +357,7 @@ public class GildedKeyStorageMod(
             }
 
             // Adjust secure container properties
-            if (config.GetConfig().AllKeysInSecure && itemHelper.IsOfBaseclass(item.Id, BaseClasses.MOB_CONTAINER) && itemProperties.Grids != null)
+            if (config.GetConfig().AllKeysInSecure!.Value && itemHelper.IsOfBaseclass(item.Id, BaseClasses.MOB_CONTAINER) && itemProperties.Grids != null)
             {
                 // Theta container has multiple grids, so we need to loop through all grids
                 foreach (var grid in itemProperties.Grids)

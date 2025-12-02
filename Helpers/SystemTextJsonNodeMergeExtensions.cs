@@ -20,7 +20,7 @@ namespace CajunCoding
         /// <param name="jsonMerge"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public static JsonNode? Merge(this JsonNode jsonBase, JsonNode? jsonMerge)
+        public static JsonNode? Merge(this JsonNode jsonBase, JsonNode? jsonMerge, bool mergeArrays)
         {
             if (jsonBase == null || jsonMerge == null)
                 return jsonBase;
@@ -38,8 +38,8 @@ namespace CajunCoding
                         {
                             jsonBaseObj[prop.Key] = jsonBaseObj[prop.Key] switch
                             {
-                                JsonObject jsonBaseChildObj when prop.Value is JsonObject jsonMergeChildObj => jsonBaseChildObj.Merge(jsonMergeChildObj),
-                                JsonArray jsonBaseChildArray when prop.Value is JsonArray jsonMergeChildArray => jsonBaseChildArray.Merge(jsonMergeChildArray),
+                                JsonObject jsonBaseChildObj when prop.Value is JsonObject jsonMergeChildObj => jsonBaseChildObj.Merge(jsonMergeChildObj, mergeArrays),
+                                JsonArray jsonBaseChildArray when prop.Value is JsonArray jsonMergeChildArray => jsonBaseChildArray.Merge(jsonMergeChildArray, mergeArrays),
                                 _ => prop.Value
                             };
                         }
@@ -47,6 +47,13 @@ namespace CajunCoding
                     }
                 case JsonArray jsonBaseArray when jsonMerge is JsonArray jsonMergeArray:
                     {
+                        // If we're not merging arrays, and the merge value isn't null, overwrite the target with the merge value
+                        if (!mergeArrays && jsonMerge is not null)
+                        {
+                            jsonBase = jsonMerge;
+                            break;
+                        }
+
                         //NOTE: We must materialize the set (e.g. to an Array), and then clear the merge array,
                         //      so they can then be re-assigned to the target/base Json...
                         var mergeNodesArray = jsonMergeArray.ToArray();
@@ -62,17 +69,5 @@ namespace CajunCoding
 
             return jsonBase;
         }
-
-        /// <summary>
-        /// Merges the specified Dictionary of values into the base JsonNode for which this method is called.
-        /// </summary>
-        /// <typeparam name="TKey"></typeparam>
-        /// <typeparam name="TValue"></typeparam>
-        /// <param name="jsonBase"></param>
-        /// <param name="dictionary"></param>
-        /// <param name="options"></param>
-        /// <returns></returns>
-        public static JsonNode? MergeDictionary<TKey, TValue>(this JsonNode jsonBase, IDictionary<TKey, TValue> dictionary, JsonSerializerOptions? options = null)
-            => jsonBase.Merge(JsonSerializer.SerializeToNode(dictionary, options));
     }
 }

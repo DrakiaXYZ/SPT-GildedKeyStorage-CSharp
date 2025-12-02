@@ -2,7 +2,6 @@ using DrakiaXYZ.GildedKeyStorage.Models;
 using SPTarkov.DI.Annotations;
 using SPTarkov.Server.Core.Helpers;
 using SPTarkov.Server.Core.Models.Common;
-using SPTarkov.Server.Core.Models.Eft.Common.Tables;
 using SPTarkov.Server.Core.Models.Logging;
 using SPTarkov.Server.Core.Models.Utils;
 using SPTarkov.Server.Core.Services;
@@ -27,14 +26,11 @@ public class DebugHelper(
         "5751961824597720a31c09ac",
         "590de4a286f77423d9312a32",
         "590de52486f774226a0c24c2",
-        "61a6446f4b5f8b70f451b166",
         "63a39ddda3a2b32b5f6e007a",
-        "63a39e0f64283b5e9c56b282",
         "63a39e5b234195315d4020bf",
         "63a39e6acd6db0635c1975fe",
         "63a71f1a0aa9fb29da61c537",
         "63a71f3b0aa9fb29da61c539",
-        "658199a0490414548c0fa83b",
         "6582dc63cafcd9485374dbc5"
     ];
 
