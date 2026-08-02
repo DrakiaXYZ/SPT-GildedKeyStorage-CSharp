@@ -11,8 +11,8 @@ using System.Reflection;
 
 namespace DrakiaXYZ.GildedKeyStorage.ClientMod
 {
-    [BepInPlugin("xyz.drakia.gildedkeystorage", "DrakiaXYZ-GildedKeyStorage", "2.0.4")]
-    [BepInDependency("com.SPT.core", "4.0.0")]
+    [BepInPlugin("xyz.drakia.gildedkeystorage", "DrakiaXYZ-GildedKeyStorage", "2.1.0")]
+    [BepInDependency("com.SPT.core", "4.1.0")]
     public class GildedKeyStoragePlugin : BaseUnityPlugin
     {
         public void Awake()
@@ -58,7 +58,7 @@ namespace DrakiaXYZ.GildedKeyStorage.ClientMod
             }
 
             // If we are transiting, the key has already been consumed, don't do anything
-            if (TransitControllerAbstractClass.IsTransit(profile.Id, out string transitLocation))
+            if (TransitController.IsTransit(profile.Id, out string transitLocation))
             {
                 return false;
             }
@@ -89,7 +89,7 @@ namespace DrakiaXYZ.GildedKeyStorage.ClientMod
             // If we need to remove the item (Either not a Key, or has hit its use limit), remove it
             if (itemToRemove != null)
             {
-                StashGridClass stashGrid = itemToRemove.Parent.Container as StashGridClass;
+                Grid stashGrid = itemToRemove.Parent.Container as Grid;
                 if (stashGrid != null)
                 {
                     var result = stashGrid.Remove(itemToRemove, false);
@@ -141,7 +141,7 @@ namespace DrakiaXYZ.GildedKeyStorage.ClientMod
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.DeclaredMethod(typeof(LoggerClass), nameof(LoggerClass.LogError));
+            return AccessTools.DeclaredMethod(typeof(AbstractLogger), nameof(AbstractLogger.LogError));
         }
 
         [PatchPrefix]

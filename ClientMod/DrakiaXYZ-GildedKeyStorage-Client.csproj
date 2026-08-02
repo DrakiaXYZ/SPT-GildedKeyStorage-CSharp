@@ -5,8 +5,8 @@
     <RootNamespace>DrakiaXYZ.GildedKeyStorage</RootNamespace>
     <Nullable>disable</Nullable>
     <Authors>DrakiaXYZ</Authors>
-    <Copyright>Copyright © 2025 DrakiaXYZ</Copyright>
-    <AssemblyVersion>2.0.4</AssemblyVersion>
+    <Copyright>Copyright © 2026 DrakiaXYZ</Copyright>
+    <AssemblyVersion>2.1.0</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
 	<OutputPath>bin\$(Configuration)\</OutputPath>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>

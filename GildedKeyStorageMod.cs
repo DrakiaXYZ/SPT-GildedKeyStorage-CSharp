@@ -2,38 +2,38 @@
 using DrakiaXYZ.GildedKeyStorage.Models;
 using SPTarkov.DI.Annotations;
 using SPTarkov.Server.Core.DI;
-using SPTarkov.Server.Core.Helpers;
+using SPTarkov.Server.Core.Helpers.Items;
 using SPTarkov.Server.Core.Models.Common;
 using SPTarkov.Server.Core.Models.Eft.Common.Tables;
 using SPTarkov.Server.Core.Models.Enums;
 using SPTarkov.Server.Core.Models.Spt.Mod;
-using SPTarkov.Server.Core.Models.Utils;
-using SPTarkov.Server.Core.Services;
-using SPTarkov.Server.Core.Services.Mod;
+using SPTarkov.Server.Core.Models.Spt.Tables;
+using SPTarkov.Server.Core.Services.Modding.Custom;
 using SPTarkov.Server.Core.Utils;
 using System.Reflection;
-using System.Text.Json;
 using Path = System.IO.Path;
 
 namespace DrakiaXYZ.GildedKeyStorage;
 
-[Injectable(TypePriority = OnLoadOrder.PostDBModLoader + 1)]
+[Injectable(TypePriority = OnLoadOrder.Preload + 1)]
 public class GildedKeyStorageMod(
     CustomJsonUtil jsonUtil,
     FileUtil fileUtil,
     ItemHelper itemHelper,
     CustomItemService customItemService,
-    DatabaseService databaseService,
+    TemplateTable templateTable,
+    TradersTable tradersTable,
+    GlobalTable globalTable,
     DebugHelper debugHelper,
     Config config) : IOnLoad
 {
     private readonly string modPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
     private readonly string HANDBOOK_GEARCASES = "5b5f6fa186f77409407a7eb7";
 
-    public async Task OnLoad()
+    public async Task OnLoadAsync(CancellationToken cancellationToken)
     {
         var casesConfigPath = Path.Join(modPath, "config", "cases.json");
-        var cases = jsonUtil.Deserialize<List<Case>>(await fileUtil.ReadFileAsync(casesConfigPath))!;
+        var cases = jsonUtil.Deserialize<List<Case>>(await fileUtil.ReadFileAsync(casesConfigPath, cancellationToken))!;
 
         foreach (var newCase in cases)
         {
@@ -79,6 +79,7 @@ public class GildedKeyStorageMod(
             ItemTplToClone = itemToCloneTpl,
             ParentId = parentItemId,
             NewId = newCase.Id,
+            NewItemName = newCase.ItemName,
             HandbookParentId = HANDBOOK_GEARCASES,
             FleaPriceRoubles = newCase.FleaPrice,
             HandbookPriceRoubles = newCase.FleaPrice,
@@ -204,7 +205,7 @@ public class GildedKeyStorageMod(
 
     private void AllowCaseInContainers(string itemId)
     {
-        var itemTable = databaseService.GetTables().Templates.Items;
+        var itemTable = templateTable.Items;
         foreach (var (_, item) in itemTable)
         {
             // Skip non-items (Root nodes, etc)
@@ -289,7 +290,7 @@ public class GildedKeyStorageMod(
         if (traderField == null) return;
 
         var traderId = (MongoId)traderField.GetValue(null)!;
-        var trader = databaseService.GetTrader(traderId)!;
+        var trader = tradersTable.GetTrader(traderId)!;
         trader.Assort.Items.Add(new Item
         {
             Id = newCase.Id,
@@ -320,7 +321,7 @@ public class GildedKeyStorageMod(
 
     private void AdjustItemProperties()
     {
-        var itemTable = databaseService.GetTables().Templates.Items;
+        var itemTable = templateTable.Items;
         foreach (var (_, item) in itemTable)
         {
             if (item.Type != "Item") continue;
@@ -365,7 +366,7 @@ public class GildedKeyStorageMod(
                     var filters = grid.Properties?.Filters;
                     if (filters?.Count() > 0)
                     {
-                        filters.First().ExcludedFilter?.RemoveWhere(x => databaseService.GetItems()[x].Type == "Item" && itemHelper.IsOfBaseclass(x, BaseClasses.KEY));
+                        filters.First().ExcludedFilter?.RemoveWhere(x => templateTable.Items[x].Type == "Item" && itemHelper.IsOfBaseclass(x, BaseClasses.KEY));
                     }
                 }
             }
@@ -374,7 +375,7 @@ public class GildedKeyStorageMod(
 
     private void SetLabsCardInRaidLimit(int limitAmount)
     {
-        var restrictionInRaid = databaseService.GetTables().Globals.Configuration.RestrictionsInRaid;
+        var restrictionInRaid = globalTable.Configuration.RestrictionsInRaid;
         var labsAccessRestriction = restrictionInRaid.FirstOrDefault(x => x.TemplateId == ItemTpl.KEYCARD_TERRAGROUP_LABS_ACCESS);
         if (labsAccessRestriction != null)
         {

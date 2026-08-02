@@ -1,17 +1,19 @@
 using DrakiaXYZ.GildedKeyStorage.Models;
+using Spectre.Console;
+using SPTarkov.Common.Models.Logging;
 using SPTarkov.DI.Annotations;
-using SPTarkov.Server.Core.Helpers;
+using SPTarkov.Server.Core.Helpers.Items;
 using SPTarkov.Server.Core.Models.Common;
-using SPTarkov.Server.Core.Models.Logging;
-using SPTarkov.Server.Core.Models.Utils;
-using SPTarkov.Server.Core.Services;
+using SPTarkov.Server.Core.Models.Enums;
+using SPTarkov.Server.Core.Models.Spt.Tables;
+using SPTarkov.Server.Core.Services.Locales;
 
 namespace DrakiaXYZ.GildedKeyStorage.Helpers;
 
 [Injectable]
 public class DebugHelper(
     ItemHelper itemHelper,
-    DatabaseService databaseService,
+    TemplateTable templateTable,
     LocaleService localeService,
     ISptLogger<DebugHelper> logger)
 {
@@ -36,10 +38,10 @@ public class DebugHelper(
 
     public void LogRareKeys()
     {
-        logger.LogWithColor("[Gilded Key Storage]: Rare key list: ", LogTextColor.Cyan);
-        logger.LogWithColor("-------------------------------------------", LogTextColor.Yellow);
+        logger.LogWithColor("[Gilded Key Storage]: Rare key list: ", Color.Cyan);
+        logger.LogWithColor("-------------------------------------------", Color.Yellow);
 
-        foreach (var (_, item) in databaseService.GetItems())
+        foreach (var (_, item) in templateTable.Items)
         {
             // Skip if key is in ignore list
             if (ignoredKeyList.Contains(item.Id)) continue;
@@ -59,7 +61,7 @@ public class DebugHelper(
             // Find keys with 10 or less uses
             if (item.Properties.MaximumNumberOfUsage <= 10)
             {
-                logger.LogWithColor($"      \"{item.Id}\", // {localeService.GetLocaleDb()[$"{item.Id} Name"]}, Uses: {item.Properties.MaximumNumberOfUsage}", LogTextColor.Cyan);
+                logger.LogWithColor($"      \"{item.Id}\", // {localeService.GetLocaleDb()[$"{item.Id} Name"]}, Uses: {item.Properties.MaximumNumberOfUsage}", Color.Cyan);
             }
         }
     }
@@ -75,10 +77,10 @@ public class DebugHelper(
             }
         }
 
-        logger.LogWithColor("[Gilded Key Storage]: Keys missing from config: ", LogTextColor.Magenta);
-        logger.LogWithColor("-------------------------------------------", LogTextColor.Yellow);
+        logger.LogWithColor("[Gilded Key Storage]: Keys missing from config: ", Color.Magenta);
+        logger.LogWithColor("-------------------------------------------", Color.Yellow);
 
-        foreach (var (_, item) in databaseService.GetItems())
+        foreach (var (_, item) in templateTable.Items)
         {
             // Skip if key is in ignore list
             if (ignoredKeyList.Contains(item.Id)) continue;
@@ -97,19 +99,19 @@ public class DebugHelper(
             {
                 if (keysInConfig.Contains(item.Id))
                 {
-                    logger.LogWithColor("Extract key in container", LogTextColor.Red);
-                    logger.LogWithColor(localeService.GetLocaleDb()[$"{item.Id} Name"], LogTextColor.Red);
-                    logger.LogWithColor(item.Id, LogTextColor.Red);
-                    logger.LogWithColor("-------------------------------------------", LogTextColor.Yellow);
+                    logger.LogWithColor("Extract key in container", Color.Red);
+                    logger.LogWithColor(localeService.GetLocaleDb()[$"{item.Id} Name"], Color.Red);
+                    logger.LogWithColor(item.Id, Color.Red);
+                    logger.LogWithColor("-------------------------------------------", Color.Yellow);
                 }
                 continue;
             }
 
             if (!keysInConfig.Contains(item.Id))
             {
-                logger.LogWithColor(localeService.GetLocaleDb()[$"{item.Id} Name"], LogTextColor.Magenta);
-                logger.LogWithColor(item.Id, LogTextColor.Magenta);
-                logger.LogWithColor("-------------------------------------------", LogTextColor.Yellow);
+                logger.LogWithColor(localeService.GetLocaleDb()[$"{item.Id} Name"], Color.Magenta);
+                logger.LogWithColor(item.Id, Color.Magenta);
+                logger.LogWithColor("-------------------------------------------", Color.Yellow);
             }
         }
     }

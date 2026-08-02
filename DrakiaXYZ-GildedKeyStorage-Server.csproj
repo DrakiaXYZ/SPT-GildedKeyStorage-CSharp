@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<RootNamespace>DrakiaXYZ.GildedKeyStorage</RootNamespace>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
@@ -44,10 +44,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="SPTarkov.Common" Version="4.0.0" />
-		<PackageReference Include="SPTarkov.DI" Version="4.0.0" />
-		<PackageReference Include="SPTarkov.Reflection" Version="4.0.0" />
-		<PackageReference Include="SPTarkov.Server.Core" Version="4.0.0" />
+		<PackageReference Include="SPTarkov.Common" Version="4.1.0" />
+		<PackageReference Include="SPTarkov.DI" Version="4.1.0" />
+		<PackageReference Include="SPTarkov.Reflection" Version="4.1.0" />
+		<PackageReference Include="SPTarkov.Server.Core" Version="4.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -66,7 +66,7 @@
 	</Target>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="xcopy /i /s /e /y &quot;$(OutDir)&quot; &quot;$(ProjectDir)..\..\SPT\user\mods\$(SolutionName)&quot;&#xD;&#xA;if $(ConfigurationName) == Package (&#xD;&#xA;  powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File $(ProjectDir)\package.ps1 -modName &quot;$(SolutionName)&quot; -modVersion &quot;$(Version)&quot;&#xD;&#xA;)" />
+		<Exec Command="xcopy /i /s /e /y &quot;$(OutDir)&quot; &quot;$(ProjectDir)..\..\SPT_Runtime\user\mods\$(SolutionName)&quot;&#xD;&#xA;if $(ConfigurationName) == Package (&#xD;&#xA;  powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File $(ProjectDir)\package.ps1 -modName &quot;$(SolutionName)&quot; -modVersion &quot;$(Version)&quot;&#xD;&#xA;)" />
 	</Target>
 
 </Project>

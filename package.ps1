@@ -14,7 +14,7 @@ Set-Location $PSScriptRoot
 Write-Host ('Packaging {0} v{1}' -f $modName, $modVersion)
 
 # Create the package structure
-$sptDir = '{0}\SPT' -f $packageDir 
+$sptDir = '{0}\SPT_Runtime' -f $packageDir 
 $modsDir = '{0}\user\mods' -f $sptDir
 $bepInExDir = '{0}\BepInEx' -f $packageDir
 $pluginsDir = '{0}\plugins' -f $bepInExDir

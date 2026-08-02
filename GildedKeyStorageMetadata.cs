@@ -2,17 +2,18 @@
 
 using SPTarkov.Server.Core.Models.Spt.Mod;
 
-public record GildedKeyStorageMetadata : AbstractModMetadata
+public record GildedKeyStorageMetadata : IModMetadata
 {
-    public override string ModGuid { get; init; } = "xyz.drakia.gildedkeystorage";
-    public override string Name { get; init; } = "Gilded Key Storage";
-    public override string Author { get; init; } = "DrakiaXYZ";
-    public override List<string>? Contributors { get; init; } = new List<string>() { "Jehree" };
-    public override SemanticVersioning.Version Version { get; init; } = new("2.0.4");
-    public override SemanticVersioning.Range SptVersion { get; init; } = new("~4.0.0");
-    public override List<string>? Incompatibilities { get; init; }
-    public override Dictionary<string, SemanticVersioning.Range>? ModDependencies { get; init; }
-    public override string? Url { get; init; }
-    public override bool? IsBundleMod { get; init; } = true;
-    public override string License { get; init; } = "CC-BY-NC-ND";
+    public string ModGuid { get; init; } = "xyz.drakia.gildedkeystorage";
+    public string Name { get; init; } = "Gilded Key Storage";
+    public string Author { get; init; } = "DrakiaXYZ";
+    public List<string>? Contributors { get; init; } = new List<string>() { "Jehree" };
+    public SemanticVersioning.Version Version { get; init; } = new("2.1.0");
+    public SemanticVersioning.Range SptVersion { get; init; } = new("~4.1.0");
+    public Dictionary<string, SemanticVersioning.Range>? ModDependencies { get; init; }
+    public bool? IsBundleMod { get; init; } = true;
+    public string License { get; init; } = "CC-BY-NC-ND";
+    public bool HasPrepatcher { get; init; } = false;
+    public List<string>? Incompatibilities { get; init; }
+    public string? Url { get; init; }
 }
