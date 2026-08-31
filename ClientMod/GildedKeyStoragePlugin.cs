@@ -11,7 +11,7 @@ using System.Reflection;
 
 namespace DrakiaXYZ.GildedKeyStorage.ClientMod
 {
-    [BepInPlugin("xyz.drakia.gildedkeystorage", "DrakiaXYZ-GildedKeyStorage", "2.1.0")]
+    [BepInPlugin("xyz.drakia.gildedkeystorage", "DrakiaXYZ-GildedKeyStorage", "2.1.1")]
     [BepInDependency("com.SPT.core", "4.1.0")]
     public class GildedKeyStoragePlugin : BaseUnityPlugin
     {
